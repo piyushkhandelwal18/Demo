@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ecommerce.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,11 @@ namespace Ecommerce.Controllers
     {
         public ActionResult Index()
         {
+            User user = new User();
+            var m = new ModelContext();
+            m.Users.Add(user);
+            m.SaveChanges();
+            
             return View();
         }
 
