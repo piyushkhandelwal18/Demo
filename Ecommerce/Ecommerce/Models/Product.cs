@@ -12,5 +12,7 @@ namespace Ecommerce.Models
         public Category Category { get; set; }
         [NotMapped]
         public List<SelectListItem> CategoryList { get; set; }
+        [NotMapped]
+        public int PictureId { get; set; }
     }
 }

@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/grid.js"></script>
+<link rel="stylesheet" href="~/Content/grid.css" />
+<h2>Index</h2>
+
+<table id="grid" data-source="@Url.Action("GetPlayers")"></table>
+
+<script>
+    grid = $("#grid").grid({
+        dataKey: "ID",
+        uiLibrary: "bootstrap",
+        columns: [
+          { field: "ID", width: 50, sortable: true },
+          { field: "Name", sortable: true },
+          { field: "PlaceOfBirth", title: "Place Of Birth", sortable: true },
+          { field: "DateOfBirth", title: "Date Of Birth", sortable: true },
+          {
+              field: "Edit", title: "", width: 34, type: "icon",
+              icon: "glyphicon-pencil", tooltip: "Edit", events: { "click": Edit }
+          },
+          {
+              field: "Delete", title: "", width: 34, type: "icon",
+              icon: "glyphicon-remove", tooltip: "Delete", events: { "click": Remove }
+          }
+        ],
+        pager: { enable: true, limit: 5, sizes: [2, 5, 10, 20] }
+    });
+
+    function Add() {
+        $("#playerId").val("");
+        $("#name").val("");
+        $("#placeOfBirth").val("");
+        $("#dateOfBirth").val("");
+        $("#playerModal").modal("show");
+    }
+    function Edit(e) {
+        $("#playerId").val(e.data.id);
+        $("#name").val(e.data.record.Name);
+        $("#placeOfBirth").val(e.data.record.PlaceOfBirth);
+        $("#dateOfBirth").val(e.data.record.DateOfBirth);
+        $("#playerModal").modal("show");
+    }
+    function Save() {
+        var player = {
+            ID: $("#playerId").val(),
+            Name: $("#name").val(),
+            PlaceOfBirth: $("#placeOfBirth").val(),
+            DateOfBirth: $("#dateOfBirth").val()
+        };
+        $.ajax({ url: "Home/Save", type: "POST", data: { player: player } })
+          .done(function () {
+              grid.reload();
+              $("#playerModal").modal("hide");
+          })
+          .fail(function () {
+              alert("Unable to save.");
+              $("#playerModal").modal("hide");
+          });
+    }
+    function Remove(e) {
+        $.ajax({ url: "Home/Remove", type: "POST", data: { id: e.data.id } })
+          .done(function () {
+              grid.reload();
+          })
+          .fail(function () {
+              alert("Unable to remove.");
+          });
+    }
+    function Search() {
+        grid.reload({ searchString: $("#search").val() });
+    }
+</script>
+

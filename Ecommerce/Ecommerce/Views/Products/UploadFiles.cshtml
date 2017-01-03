@@ -1,0 +1,29 @@
+﻿@model Ecommerce.Models.Product
+
+@{
+    ViewBag.Title = "UploadFiles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>UploadFiles</h2>
+
+@using (Html.BeginForm("UploadFile", "Products", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Product Image</h4>
+        <hr />
+        
+        <input type="file" name="uploadedFile" id="uploadedFile" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

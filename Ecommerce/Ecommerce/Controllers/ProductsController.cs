@@ -134,6 +134,25 @@ namespace Ecommerce.Controllers
             return RedirectToAction("Index");
         }
 
+        
+        public ActionResult UploadFiles()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadFiles(HttpPostedFileBase uploadedFile)
+        {
+            if(uploadedFile == null)
+            {
+                return Json(new { Result = false }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { Result = true }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
