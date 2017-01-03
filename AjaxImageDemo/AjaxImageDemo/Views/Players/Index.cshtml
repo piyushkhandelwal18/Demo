@@ -6,7 +6,7 @@
 <script src="~/Scripts/grid.js"></script>
 <link rel="stylesheet" href="~/Content/grid.css" />
 <h2>Index</h2>
-
+<button onclick="Save()">Add</button>
 <table id="grid" data-source="@Url.Action("GetPlayers")"></table>
 
 <script>
@@ -16,7 +16,7 @@
         columns: [
           { field: "ID", width: 50, sortable: true },
           { field: "Name", sortable: true },
-          { field: "PlaceOfBirth", title: "Place Of Birth", sortable: true },
+          { field: "PlaceofBirth", title: "Place Of Birth", sortable: true },
           { field: "DateOfBirth", title: "Date Of Birth", sortable: true },
           {
               field: "Edit", title: "", width: 34, type: "icon",
@@ -38,6 +38,7 @@
         $("#playerModal").modal("show");
     }
     function Edit(e) {
+        alert("Alert");
         $("#playerId").val(e.data.id);
         $("#name").val(e.data.record.Name);
         $("#placeOfBirth").val(e.data.record.PlaceOfBirth);
@@ -45,13 +46,14 @@
         $("#playerModal").modal("show");
     }
     function Save() {
+        alert("Save Called");
         var player = {
             ID: $("#playerId").val(),
             Name: $("#name").val(),
             PlaceOfBirth: $("#placeOfBirth").val(),
             DateOfBirth: $("#dateOfBirth").val()
         };
-        $.ajax({ url: "Home/Save", type: "POST", data: { player: player } })
+        $.ajax({ url: "Save", type: "POST", data: { player: player } })
           .done(function () {
               grid.reload();
               $("#playerModal").modal("hide");
@@ -62,7 +64,7 @@
           });
     }
     function Remove(e) {
-        $.ajax({ url: "Home/Remove", type: "POST", data: { id: e.data.id } })
+        $.ajax({ url: "Remove", type: "POST", data: { id: e.data.id } })
           .done(function () {
               grid.reload();
           })
