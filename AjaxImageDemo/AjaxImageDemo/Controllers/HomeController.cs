@@ -10,7 +10,7 @@ namespace AjaxImageDemo.Controllers
 {
     public class HomeController : Controller
     {
-        Models.AppContext db = new Models.AppContext();
+        Models.AjaxContext db = new Models.AjaxContext();
         int productId = 0;
 
         public ActionResult Index()

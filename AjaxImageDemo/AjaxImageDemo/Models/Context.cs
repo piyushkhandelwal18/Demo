@@ -6,14 +6,18 @@ using System.Web;
 
 namespace AjaxImageDemo.Models
 {
-    public class AppContext :DbContext
+    public class AjaxContext :DbContext
     {
-        public AppContext() : base()
+        public AjaxContext() : base()
         {
 
         }
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> Images { get; set; }
+
+        public DbSet<Player> Players { get; set; }
+
+        public System.Data.Entity.DbSet<AjaxImageDemo.Models.Contact> Contacts { get; set; }
     }
 }

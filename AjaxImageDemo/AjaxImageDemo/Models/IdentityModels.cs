@@ -29,5 +29,7 @@ namespace AjaxImageDemo.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<AjaxImageDemo.Models.Player> Players { get; set; }
     }
 }
