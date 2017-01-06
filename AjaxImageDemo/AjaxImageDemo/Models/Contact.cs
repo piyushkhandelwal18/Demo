@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace AjaxImageDemo.Models
 {
@@ -13,5 +14,12 @@ namespace AjaxImageDemo.Models
         public byte[] Image { get; set; }
         [NotMapped]
         public HttpPostedFileBase attachment { get; set; }
+        [NotMapped]
+        List<SelectListItem> SelectList { get; set; }
+
+        public Contact()
+        {
+            SelectList = new List<SelectListItem>();
+        }
     }
 }

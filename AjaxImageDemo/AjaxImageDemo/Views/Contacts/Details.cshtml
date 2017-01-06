@@ -5,29 +5,35 @@
 }
 
 <h2>Details</h2>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<input type="file" id="imageUploadForm" name="image" multiple="multiple" />
+<script>
+    $(document).ready(function () {
+        $("#imageUploadForm").change(function () {
+            var formData = new FormData();
+            var totalFiles = document.getElementById("imageUploadForm").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("imageUploadForm").files[i];
 
-<div>
-    <h4>Contact</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-
-    </dl>
-</div>
+                formData.append("imageUploadForm", file);
+            }
+            $.ajax({
+                type: "POST",
+                url: 'Upload',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert('succes!!');
+                },
+                error: function (error) {
+                    alert("errror");
+                }
+            });
+        });
+    });
+</script>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ContactId }) |
     @Html.ActionLink("Back to List", "Index")

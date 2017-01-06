@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AjaxImageDemo.Models;
+using System.IO;
 
 namespace AjaxImageDemo.Controllers
 {
@@ -21,18 +22,9 @@ namespace AjaxImageDemo.Controllers
         }
 
         // GET: Contacts/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contact);
+            return View(new Contact());
         }
 
         // GET: Contacts/Create
@@ -84,28 +76,17 @@ namespace AjaxImageDemo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ContactId,Name,Image")] Contact contact)
         {
-            if (ModelState.IsValid)
+            if (System.Web.HttpContext.Current.Request.Files.AllKeys.Any())
             {
-                db.Entry(contact).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var pic = System.Web.HttpContext.Current.Request.Files["HelpSectionImages"];
             }
             return View(contact);
         }
 
         // GET: Contacts/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contact);
+            return View();
         }
 
         // POST: Contacts/Delete/5
@@ -126,6 +107,21 @@ namespace AjaxImageDemo.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        public void Upload()
+        {
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                var file = Request.Files[i];
+
+                var fileName = Path.GetFileName(file.FileName);
+
+                var path = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
+                file.SaveAs(path);
+            }
+
         }
     }
 }
